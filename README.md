@@ -6,11 +6,19 @@ A JNDI service locator for the CDI `BeanManager`.
 Sometimes, you want to use some CDI beans in classes that are dynamically 
 created by another framework, and aren't subject to dependency injection.
 For this reason, in a Java EE container, a reference to an application's 
-`BeanManager` is stored as a JNDI reference named `NAME HERE`.
+`BeanManager` is stored as a JNDI reference named `java:comp/BeanManager`.
 
 Performing JNDI lookups is always a bit of chore. This small library provides a 
 convenient and efficient way to get a reference to the `BeanManager` without 
 having to directly handle the required JNDI lookups in your code.
+
+##### Tomcat Compatible
+
+Tomcat does not allow the global namespace to be manipulated by a deployed
+application. If you're using Weld for CDI support in an application that runs
+in Tomcat, the JNDI name for the bean manager is `java:comp/env/BeanManager`.
+This library knows how to find it there, too, and there's absolutely no 
+additional configuration required!  
 
 
 Maven Dependency
@@ -64,7 +72,7 @@ MyService = beanManager.getBean(MyService.class);
 Those less commonly needed, you can also get a set of references to all beans 
 of a given type, and you can specify qualifier annotation classes to be more
 selective. For example, to get all beans of type `EncryptorService` that 
-are have the `AES` qualifier:
+have the `AES` qualifier:
 
 ```
 SimpleBeanManager beanManager = JndiBeanManagerLocator.getInstance()
