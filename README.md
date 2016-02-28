@@ -1,0 +1,78 @@
+bean-manager-locator
+====================
+
+A JNDI service locator for the CDI `BeanManager`.
+
+Sometimes, you want to use some CDI beans in classes that are dynamically 
+created by another framework, and aren't subject to dependency injection.
+For this reason, in a Java EE container, a reference to an application's 
+`BeanManager` is stored as a JNDI reference named `NAME HERE`.
+
+Performing JNDI lookups is always a bit of chore. This small library provides a 
+convenient and efficient way to get a reference to the `BeanManager` without 
+having to directly handle the required JNDI lookups in your code.
+
+
+Maven Dependency
+----------------
+
+This small library is distributed via Maven Central. If you're using Maven to 
+configure your build system, you can simply include this dependency.
+
+```
+<dependency>
+  <groupId>org.soulwing</groupId>
+  <artifactId>bean-manager-locator</artifactId>
+  <version>1.0.0</version>
+</dependency>
+```
+
+Using `JndiBeanManagerLocator`
+------------------------------
+
+The `JndiBeanManagerLocator` is fully thread safe so it can be shared across
+any number of objects.  It has a `getInstance` method that is used to obtain
+a reference to the singleton locator instance.
+
+```
+BeanManager beanManager = JndiBeanManagerLocator.getInstance().getBeanManager();
+```
+
+The locator implements the `BeanManagerLocator` interface. You can mock this
+interface as needed to test code that utilizes the locator, without having to
+run your code in a container that has an actual `BeanManager` instance available
+as a JNDI reference.
+
+
+Using `SimpleBeanManager`
+-------------------------
+
+The CDI `BeanManager` has a somewhat complicated API. Usually, when you want to
+lookup the bean manager, it's because you just want to get a reference to some 
+beans.  This library includes a `SimpleBeanManager` interface that makes getting
+a reference to a bean a much simpler task.
+
+To get a reference to a singleton bean that implements `MyService`:
+
+```
+SimpleBeanManager beanManager = JndiBeanManagerLocator.getInstance()
+    .getSimpleBeanManager();
+
+MyService = beanManager.getBean(MyService.class);
+```
+
+Those less commonly needed, you can also get a set of references to all beans 
+of a given type, and you can specify qualifier annotation classes to be more
+selective. For example, to get all beans of type `EncryptorService` that 
+are have the `AES` qualifier:
+
+```
+SimpleBeanManager beanManager = JndiBeanManagerLocator.getInstance()
+    .getSimpleBeanManager();
+
+MyService = beanManager.getBean(MyService.class);
+
+Set<EncryptorService> encryptorServices = beanManager.getBeans(
+    EncryptorService.class, AES.class);
+```
+
