@@ -73,7 +73,7 @@ SimpleBeanManager beanManager = JndiBeanManagerLocator.getInstance()
 MyService = beanManager.getBean(MyService.class);
 ```
 
-Those less commonly needed, you can also get a set of references to all beans 
+Though less commonly needed, you can also get a set of references to all beans 
 of a given type, and you can specify qualifier annotation classes to be more
 selective. For example, to get all beans of type `EncryptorService` that 
 have the `AES` qualifier:
