@@ -15,6 +15,7 @@ Performing JNDI lookups is always a bit of chore. This small library provides a
 convenient and efficient way to get a reference to the `BeanManager` without 
 having to directly handle the required JNDI lookups in your code.
 
+
 ##### Tomcat Compatible
 
 Tomcat does not allow the global namespace to be manipulated by a deployed
