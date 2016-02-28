@@ -1,6 +1,9 @@
 bean-manager-locator
 ====================
 
+[![Build Status](https://travis-ci.org/soulwing/bean-manager-locator.svg?branch=master)](https://travis-ci.org/soulwing/bean-manager-locator)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.soulwing/bean-manager-locator/badge.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3Aorg.soulwing%20a%3Abean-manager-locator*)
+
 A JNDI service locator for the CDI `BeanManager`.
 
 Sometimes, you want to use some CDI beans in classes that are dynamically 
