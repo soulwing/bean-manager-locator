@@ -24,7 +24,8 @@
   bean-discovery-mode="annotated">
   
   <alternatives>
-    <class>org.soulwing.cdi.jndi.AnotherServiceAlternative</class>
+    <class>org.soulwing.cdi.AnotherServiceAlternative</class>
+    <class>org.soulwing.cdi.AnotherNamedServiceAlternative</class>
   </alternatives>
 
 </beans>

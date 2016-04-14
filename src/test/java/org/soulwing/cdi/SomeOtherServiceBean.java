@@ -1,5 +1,5 @@
 /*
- * File created on Feb 28, 2016
+ * File created on Apr 14, 2016
  *
  * Copyright (c) 2016 Carl Harris, Jr
  * and others as noted
@@ -16,8 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.soulwing.cdi.jndi;
+package org.soulwing.cdi;
 
-public interface AnotherService {
+import javax.enterprise.context.Dependent;
+
+@Dependent
+@SomeQualifier
+public class SomeOtherServiceBean implements SomeService {
 
 }

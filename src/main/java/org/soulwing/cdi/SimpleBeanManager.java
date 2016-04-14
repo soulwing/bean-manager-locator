@@ -61,5 +61,17 @@ public interface SimpleBeanManager {
    * @return set of bean instances (which may be empty)
    */
   <T> Set<T> getBeans(Class<T> type, Annotation... qualifiers);
-  
+
+  /**
+   * Gets a reference to a bean with the given name.
+   * @param name name of the desired bean
+   * @param type the type of beans desired
+   * @return bean instance
+   * @throws UnsatisfiedResolutionException if there is no qualifying bean
+   *    of the given type
+   * @throws AmbiguousResolutionException unless if there is more than one
+   *    qualifying bean of the given type
+   */
+  <T> T getBean(String name, Class<T> type);
+
 }

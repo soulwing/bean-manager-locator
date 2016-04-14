@@ -1,5 +1,5 @@
 /*
- * File created on Feb 28, 2016
+ * File created on Apr 14, 2016
  *
  * Copyright (c) 2016 Carl Harris, Jr
  * and others as noted
@@ -16,22 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.soulwing.cdi.jndi;
+package org.soulwing.cdi;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.enterprise.util.AnnotationLiteral;
 
-import javax.inject.Qualifier;
+public class SomeQualifierLiteral extends AnnotationLiteral<SomeQualifier> {
 
-/**
- * DESCRIBE THE TYPE HERE.
- *
- * @author Carl Harris
- */
-@Qualifier
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE, ElementType.CONSTRUCTOR, ElementType.METHOD })
-public @interface SomeQualifier {
+  private static final long serialVersionUID = -7550879081741961176L;
+
+  public static final SomeQualifierLiteral INSTANCE = 
+      new SomeQualifierLiteral();
+  
+  private SomeQualifierLiteral() {    
+  }
+  
 }

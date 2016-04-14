@@ -69,6 +69,18 @@ public class DelegatingSimpleBeanManager implements SimpleBeanManager {
     return getReference(bean, type);
   }
 
+  @Override
+  public <T> T getBean(String name, Class<T> type) {
+    Set<Bean<?>> beans = delegate.getBeans(name);
+    if (beans.isEmpty()) {
+      throw new UnsatisfiedResolutionException("no qualifying beans named '"
+          + name + "'");
+    }
+    Bean<?> bean = delegate.resolve(hasAlternative(beans) ?
+        alternatives(beans) : beans);
+    return getReference(bean, type);
+  }
+
   private boolean hasAlternative(Set<Bean<?>> beans) {
     for (Bean<?> bean : beans) {
       if (bean.isAlternative()) return true;

@@ -1,5 +1,5 @@
 /*
- * File created on Feb 28, 2016
+ * File created on Apr 14, 2016
  *
  * Copyright (c) 2016 Carl Harris, Jr
  * and others as noted
@@ -16,18 +16,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.soulwing.cdi.jndi;
+package org.soulwing.cdi;
 
-import javax.enterprise.util.AnnotationLiteral;
+import javax.enterprise.context.Dependent;
 
-public class SomeQualifierLiteral extends AnnotationLiteral<SomeQualifier> {
-
-  private static final long serialVersionUID = -7550879081741961176L;
-
-  public static final SomeQualifierLiteral INSTANCE = 
-      new SomeQualifierLiteral();
-  
-  private SomeQualifierLiteral() {    
-  }
-  
+@Dependent
+public class SomeServiceBean implements SomeService {
 }

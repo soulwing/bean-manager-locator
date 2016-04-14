@@ -43,7 +43,6 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.soulwing.cdi.DelegatingSimpleBeanManager;
 
 /**
  * Unit tests of {@link DelegatingSimpleBeanManager}.
@@ -138,7 +137,59 @@ public class DelegatingSimpleBeanManagerTest {
         is(sameInstance(REF2)));
   }
 
+  @Test
+  public void testGetNamedBean() throws Exception {
+    context.checking(new Expectations() {
+      {
+        oneOf(delegate).getBeans(DelegatingSimpleBeanManagerIT.BEAN_NAME);
+        will(returnValue(Collections.singleton(bean1)));
+      }
+    });
 
+    context.checking(beanExpectations(false));
+    context.checking(resolveExpectations(Collections.singleton(bean1),
+          returnValue(bean1)));
+    context.checking(getReferenceExpectations(Object.class, bean1,
+        returnValue(REF1)));
+
+    assertThat(beanManager.getBean(DelegatingSimpleBeanManagerIT.BEAN_NAME, Object.class),
+        is(sameInstance(REF1)));
+  }
+
+  @Test(expected = AmbiguousResolutionException.class)
+  public void testGetNamedBeanWhenMoreThanOneFound() throws Exception {
+    context.checking(new Expectations() {
+      {
+        oneOf(delegate).getBeans(DelegatingSimpleBeanManagerIT.BEAN_NAME);
+        will(returnValue(beans));
+      }
+    });
+
+    context.checking(beanExpectations(false));
+    context.checking(resolveExpectations(beans,
+        throwException(new AmbiguousResolutionException())));
+
+    assertThat(beanManager.getBean(DelegatingSimpleBeanManagerIT.BEAN_NAME, Object.class),
+        is(sameInstance(REF1)));
+  }
+
+  @Test
+  public void testGetNamedBeanWhenAlternativeFound() throws Exception {
+    context.checking(new Expectations() {
+      {
+        oneOf(delegate).getBeans(DelegatingSimpleBeanManagerIT.BEAN_NAME);
+        will(returnValue(beans));
+      }
+    });
+    context.checking(beanExpectations(true));
+    context.checking(resolveExpectations(Collections.singleton(bean2),
+        returnValue(bean2)));
+    context.checking(getReferenceExpectations(Object.class, bean2,
+        returnValue(REF2)));
+
+    assertThat(beanManager.getBean(DelegatingSimpleBeanManagerIT.BEAN_NAME, Object.class),
+        is(sameInstance(REF2)));
+  }
 
   @Test
   public void testGetBeans() throws Exception {

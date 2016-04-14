@@ -23,21 +23,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
-import org.hamcrest.MatcherAssert;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.jboss.weld.literal.AnyLiteral;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.soulwing.cdi.DelegatingSimpleBeanManager;
-import org.soulwing.cdi.jndi.AnotherService;
-import org.soulwing.cdi.jndi.AnotherServiceAlternative;
-import org.soulwing.cdi.jndi.DelegatingBeansXmlClassLoader;
-import org.soulwing.cdi.jndi.SomeOtherServiceBean;
-import org.soulwing.cdi.jndi.SomeQualifierLiteral;
-import org.soulwing.cdi.jndi.SomeService;
-import org.soulwing.cdi.jndi.SomeServiceBean;
 
 /**
  * An integration test for {@link DelegatingSimpleBeanManager}
@@ -45,6 +36,9 @@ import org.soulwing.cdi.jndi.SomeServiceBean;
  * @author Carl Harris
  */
 public class DelegatingSimpleBeanManagerIT {
+
+  static final String BEAN_NAME = "someName";
+  static final String OTHER_BEAN_NAME = "anotherName";
 
   private Weld weld;
   private WeldContainer container;
@@ -62,10 +56,24 @@ public class DelegatingSimpleBeanManagerIT {
 
   @Test
   public void testGetBean() throws Exception {
-    MatcherAssert.assertThat(beanManager.getBean(SomeService.class),
+    assertThat(beanManager.getBean(SomeService.class),
         is(instanceOf(SomeServiceBean.class)));
   }
-  
+
+  @Test
+  public void testGetNamedBean() throws Exception {
+    assertThat(beanManager.getBean(
+        BEAN_NAME, SomeNamedService.class),
+        is(instanceOf(SomeNamedServiceBean.class)));
+  }
+
+  @Test
+  public void testGetAlternativeNamedBean() throws Exception {
+    assertThat(beanManager.getBean(
+        DelegatingSimpleBeanManagerIT.OTHER_BEAN_NAME, AnotherNamedService.class),
+        is(instanceOf(AnotherNamedServiceAlternative.class)));
+  }
+
   @Test
   public void testGetQualifiedBean() throws Exception {
     assertThat(beanManager.getBean(
@@ -82,7 +90,7 @@ public class DelegatingSimpleBeanManagerIT {
 
   @Test
   public void testGetAlternativeBean() throws Exception {
-    MatcherAssert.assertThat(beanManager.getBean(AnotherService.class),
+    assertThat(beanManager.getBean(AnotherService.class),
         is(instanceOf(AnotherServiceAlternative.class)));
   }
   
