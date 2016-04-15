@@ -27,7 +27,7 @@
   </parent>
 
   <artifactId>bean-manager-locator</artifactId>
-  <version>1.0.1</version>
+  <version>1.1.0-SNAPSHOT</version>
   <name>${project.artifactId}</name>
   <description>
     A JNDI service locator for the CDI BeanManager
@@ -58,7 +58,7 @@
     <connection>scm:git:git@github.com:soulwing/${project.artifactId}.git</connection>
     <developerConnection>${project.scm.connection}</developerConnection>
     <url>git@github.com:soulwing/${project.artifactId}.git</url>
-    <tag>1.0.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <build>
